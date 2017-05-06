@@ -305,6 +305,8 @@ The `+` operator can combine two lists to create a new list. The `*` operator ca
 [1,2,3] * 3  # Returns [1,2,3,1,2,3,1,2,3]
 ```
 
+> Note that lists are objects, and thus, if you try to use this method to create a multi-dimensional array, you might be reusing `list` objects multiple times, as opposed to creating different `list` objects for each "row". Try `[[None for i in range(5)] for j in range(4)]` over `[[None] * 5] * 4`
+
 #### Determining a value is in a list
 `in` and `not in` operators can be used to determine whether a value is or isn't in a list. 
 ```python
@@ -339,6 +341,10 @@ dict = {}
 Unlike lists, items in dictionaries are unordered. Therefore, they can't be sliced like lists. 
 
 Trying to access a key that does not exist in a dictionary will result in a `KeyError` error message, much like `IndexError` for lists. If you assign a value to a dictionary with a key that does not exist, Python will add that value to the dictionary with the key.
+
+### Valid Keys
+Other than strings and numbers:
+- Tuple (`dict[0,0]`)
 
 ### Methods
 
