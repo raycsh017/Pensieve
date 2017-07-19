@@ -30,10 +30,11 @@ When the visibility of its views changes, a view controller automatically calls 
 - Notifies the view controller that its view is about to be added to a view hierarchy.
 - Called before any animations are configured for showing the view.
 - Override this method to perform custom tasks associated with displaying the view.
+- View has bounds defined but **the orientation is not applied**.
 
 `viewDidAppear(_:)`
 - Notifies the view controller that its view was added to a view hierarchy.
-- Override this method to perform additional tasks associated with presenting the view.
+- Override this method to perform additional tasks associated with presenting the view (ex. animations).
 
 `viewWillDisappear(_:)`
 - Notifies the view controller that its view is about to be removed from a view hierarchy.
@@ -46,12 +47,23 @@ When the visibility of its views changes, a view controller automatically calls 
 
 `viewDidLoad()`
 - Called after the controller's view is loaded into memory.
-- You usually override this method to perform additional initialization on views that were loaded from nib files.
+- Override this method to perform additional initialization on views that were loaded from nib files.
+- **View bounds are not final** at this step.
 
 `loadView()`
 - Loads or creates a view and assigns it to the `view` property.
 - Called when the view controller's `view` property is requested but is currently `nil`.
 - Override this method to create your views manually. If so, assign the root view of your view hierarchy to the `view` property. Be careful not to call `super`. If you want to do any additional view initializations, use `viewDidLoad` instead.
+
+`viewWillLayoutSubviews()`
+- Called to notify the view controller that its view is about to layout its subviews.
+- Called every time the frame changes like for example when rotate or it’s marked as needing layout.
+- Override this method to make changes before the view lays out its subviews. The default implementation of this method does nothing.
+- **View bounds are final for the first time** at this step.
+
+`viewDidLayoutSubviews()`
+- Called to notify the view controller that its view has just laid out its subviews.
+- Override this method to make additional changes after the view lays out its subviews. The default implementation of this method does nothing.
 
 #### View Notification Order
 After calling `UIViewController()` (unless specified, the notifications are from the new view controller we are moving into):
