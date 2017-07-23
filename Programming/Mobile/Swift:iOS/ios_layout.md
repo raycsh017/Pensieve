@@ -22,6 +22,27 @@ Since each step depends on the one before it, the display pass will trigger a la
 
 It is notable that constraint-based layout is an iterative process. Each step triggers another.
 
+## Intrinsic Content Size
+The intrinsic content size is **the size a view prefers to have for a specific content it displays**.
+
+To implement an intrinsic content size in a custom view, you have to do two things: 
+1. Override `intrinsicContentSize` to return the appropriate size for the content, and 
+2. Call `invalidateIntrinsicContentSize` whenever something changes which affects the intrinsic content size. If the view only has an intrinsic size for one dimension, return `UIViewNoIntrinsicMetric`/`NSViewNoIntrinsicMetric` for the other one.
+
+Note that the intrinsic content size must be independent of the view’s frame. For example, it’s not possible to return an intrinsic content size with a specific aspect ratio based on the frame’s height or width.
+
+### Compression Resistance and Content Hugging
+Each view has content compression resistance priorities and content hugging priorities assigned for both dimensions. These properties only take effect for views which define an intrinsic content size, otherwise there is no content size defined that could resist compression or be hugged.
+
+Behind the scenes, the intrinsic content size and these priority values get translated into constraints. For a label with an intrinsic content size of `{ 100, 30 }`, horizontal/vertical compression resistance priority of `750`, and horizontal/vertical content hugging priority of `250`, four constraints will be generated.
+
+```
+H:[label(<=100@250)]
+H:[label(>=100@750)]
+V:[label(<=30@250)]
+V:[label(>=30@750)]
+```
+
 ## Tricks
 - [Applying Different Constraints for Different Devices](http://stackoverflow.com/questions/29179537/set-autolayout-constraints-relative-to-device-size)
 
